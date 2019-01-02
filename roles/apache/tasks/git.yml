@@ -1,0 +1,25 @@
+- name: initialize the git 
+  shell: " git init /etc/ansible/roles/apache/"
+
+- name: add the git 
+  shell: " git add /etc/ansible/roles/apache/"
+
+- name: commit and upload the files
+  shell: "git commit -am 'uploading'"
+  register: result3
+
+- name: display the committed files
+  debug:
+    msg: "{{ result3.stdout }}"
+
+
+-
+
+
+
+
+
+
+
+
+

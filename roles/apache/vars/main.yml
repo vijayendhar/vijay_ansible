@@ -1,0 +1,6 @@
+---
+# vars file for apache
+ 
+ports: 8090
+pack: ['httpd','httpd-tools']
+contents: "{{ lookup('file', '/etc/ansible/hosts') }}"

@@ -1,0 +1,87 @@
+---
+# tasks file for apache
+
+- name: This block will run when OS is Redhat
+  block:
+   
+   - name: Setting up variable for httpd
+     set_fact:
+        serv: "httpd"
+   
+   - name: installing packages for httpd
+     yum:
+        name: "{{ serv }}"
+        state: "installed"
+     
+   
+   - name: installing git dependencies
+     yum:
+        name: "{{ item }}"
+        state: "present"
+     with_items:
+        - git-all
+   
+   
+   - name: copy the configuration file
+     template:
+       src: "httpd.conf.j2"
+       dest: "/etc/httpd/conf/httpd.conf"
+     notify: restart
+   
+   - name: start the apache service
+     service:
+        name: "{{ pack[0] }}"
+        state: "started"
+   
+   - name: downloading the code from github
+     git:
+        repo: https://github.com/vijayendhar/morning-apache.git
+        dest: "/var/www/html/morningapache"
+   
+   - name: running a shell
+     script: "{{ role_path }}/defaults/vijay.sh"
+     register: result
+   
+   - name: displaying the results
+     debug:
+       msg: "{{ result.stdout }}"
+   
+   - name: Running a shell command
+     shell: |
+           ifconfg
+     register: result2
+     ignore_errors: True
+   
+   - name: display the error
+     debug:
+       msg: "{{ result2.stderr }}"
+   
+   
+   - name: display the error
+     debug:
+       msg: "{{ serv }}"
+   
+   - name: displaying the content of the file
+     debug:
+       msg: "{{ contents }}"
+ 
+  # - name: stopping after validation
+   #  meta: end_play
+    # when: ( 'found' in result2.stderr)
+
+  when: ( ansible_os_family == "RedHat")
+
+- name: This block will run when OS family is Debian
+  block: 
+
+   - name: install apache2 by adding ubuntu playbook
+     import_tasks: vm_ubuntu.yml
+
+  when: ( ansible_os_family == "Debian")
+
+#- name: install git
+ # yum:
+  #  name: "git"
+   # state: "installed"
+    
+

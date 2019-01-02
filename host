@@ -1,0 +1,2 @@
+vm ansible_host=168.61.148.22 ansible_ssh_user=vijayendhar ansible_ssh_pass='telangana@23'
+

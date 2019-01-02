@@ -1,0 +1,12 @@
+
+- name: install package apache2 on vm1
+  apt:
+    name: "apache2"
+    state: "installed"
+
+- name: start apache2 service on vm1
+  service: 
+    name: "apache2"
+    state: "stopped"
+
+
