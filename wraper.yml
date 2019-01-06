@@ -1,6 +1,6 @@
 
-- hosts: centos-vm, ubuntu-vm 
-#- hosts: "{{ host_name }}" 
+#- hosts: centos-vm, ubuntu-vm 
+- hosts: "{{ host_name }}" 
   become: true
 
 
