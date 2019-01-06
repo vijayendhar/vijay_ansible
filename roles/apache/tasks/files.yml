@@ -1,0 +1,149 @@
+
+
+- name: Obtain the acl for a specific file using acl module
+  acl:
+    path: /etc/hosts
+  register: acl_info
+
+- name: Display the acl info of /etc/hosts file
+  debug:
+    msg: "{{ acl_info}}"
+
+- name: Grant user Joe read access to a file using acl module
+  acl:
+    path: /etc/hosts
+    entity: vijayendhar
+    etype: user
+    permissions: rw
+    state: present
+
+- name: Removes the acl for Joe on a specific fileusing acl module
+  acl:
+    path: /etc/hosts
+    entity: vijayendhar
+    etype: user
+    state: absent
+
+- name: Compress directory /path/to/foo/ into /path/to/foo.tgz using archive module
+  archive:
+    path: /etc/hosts
+    dest: /etc/hosts.tgz
+
+- name: Add mappings to /etc/hosts using blockinfile module
+  blockinfile:
+    path: /etc/hosts
+    block: |
+      {{ item.ip }} {{ item.name }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+  with_items:
+    - { name: localhost, ip: 168.61.159.111 }
+    - { name: centos, ip: 168.61.148.22 }
+    - { name: ubuntu-vm, ip: 40.113.198.251 }
+
+- name: example copying file with owner and permissions using copy module
+  copy:
+    src: /etc/ansible/inventory
+    dest: /tmp/inventory
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: fetch the file from remote to locally using fetch module
+  fetch:
+    src: /tmp/vijay1
+    dest: /tmp/vijay1
+ 
+- name: change group, owner and permissions of a file using file module
+  file:
+    path: /tmp/vijay1
+    owner: mothey
+    group: mothey
+    mode: 0777
+
+- name: Recursively find /tmp files older than 1 week and equal or greater than 1 megabyte using find module
+  find:
+    paths: /tmp
+    age: 1w
+    size: 1m
+    recurse: yes
+#    register: tmp_files
+
+#- name: display the /tmp files older than 1 week
+ # debug:
+ #   msg: "{{ tmp_files }}"
+
+- name: Add a line to a file if the file does not exist, without passing regexp using lineinfile module
+  lineinfile:
+    path: /tmp/vijay2
+    line: 'Adding a text to vijay2 file on 01032019'
+    create: yes
+ 
+- name: Searches for a line that begins with 01032019 and replaces it with the value of the 'line' parameter using lineinfile module
+  lineinfile:
+    path: /tmp/vijay2
+    regexp: '^01032019'
+    line: '01/03/2019'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Replace between the expressions (requires >=2.4) using replace module
+  replace:
+    path: /tmp/vijay2
+    regexp: '^01//03/2019'
+    replace: '01/04/2019'
+#    after: 'Start after line.*'
+#    before: 'Start before line.*'
+#    backup: yes
+
+- name: Obtain the stats of /etc/hosts using stat module 
+  stat:
+    path: /etc/hosts
+  register: st
+
+- name: display the stats of the file /etc/hosts
+  debug:
+    msg: "stat of the file is {{ st }}"
+  #when: sym.stat.islnk is not defined
+
+- name: Synchronization of src on the control machine to dest on the remote hosts using synchronize module
+  synchronize:
+    src: /etc/ansible/hosts
+    dest: rsync:/tmp/hosts
+  ignore_errors: True
+
+- name: create temporary build directory using tempfile using tempfile module
+  tempfile:
+    state: directory
+    suffix: build
+
+- name: create temporary file using tempfile module
+  tempfile:
+    state: file
+    suffix: temp
+
+- name: fetch the file from remote to locally using fetch module
+  fetch:
+    src: /etc/hosts.tgz
+    dest: /tmp/hosts.tgz
+
+- name: Extract hosts.tgz into tmp/vijay/hosts using unarchive module
+  unarchive:
+    src: /etc/hosts.tgz
+    dest: /tmp/vijay
+    remote_src: yes
+
+- name: Obtain the extended attributes  of /etc/hosts using xattr module
+  xattr:
+    path: /etc/hosts
+    value: hosts_attr
+
+- name: display the extended attributes of the file /etc/hosts
+  debug:
+    msg: "stat of the file is {{ hosts_attr }}"
+
+
+
+
+

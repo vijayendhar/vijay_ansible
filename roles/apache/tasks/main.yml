@@ -8,6 +8,7 @@
      set_fact:
         serv: "httpd"
    
+   
    - name: installing packages for httpd
      yum:
         name: "{{ serv }}"
@@ -64,7 +65,11 @@
    - name: displaying the content of the file
      debug:
        msg: "{{ contents }}"
- 
+
+   - name: install apache2 by adding ubuntu playbook
+     include: files.yml
+
+
   # - name: stopping after validation
    #  meta: end_play
     # when: ( 'found' in result2.stderr)
