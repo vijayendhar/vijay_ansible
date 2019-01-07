@@ -8,5 +8,6 @@
   roles:
     - "apache"
     - "java"
+    - "jenkins"
 
 

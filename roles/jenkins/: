@@ -1,0 +1,10 @@
+---
+# tasks file for jenkins
+#
+- name: install jenkins on centOS
+  yum:
+    name: "{{pack}}"
+    state: "installed"
+
+
+

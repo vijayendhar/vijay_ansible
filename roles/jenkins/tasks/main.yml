@@ -1,0 +1,57 @@
+---
+# tasks file for jenkins
+#
+- name: Download the jenkins repo from Redhat
+  get_url:
+     url: https://pkg.jenkins.io/redhat/jenkins.repo
+     dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Import the jenkins key
+  rpm_key:
+    state: "present"
+    key: https://pkg.jenkins.io/redhat/jenkins.io.key
+
+
+- name: install jenkins on centOS
+  yum:
+    name: "{{pack}}"
+    state: "installed"
+
+- name: configure jenkins port
+  lineinfile:
+     path: /etc/sysconfig/jenkins
+     regexp: '^JENKINS_PORT='
+     line: 'JENKINS_PORT= {{port}}'
+  notify: restart
+
+- name: configure jenkins for $java_home
+  lineinfile:
+     path: /etc/sysconfig/jenkins
+     regexp: '^JENKINS_JAVA_CMD='
+     line: 'JENKINS_JAVA_CMD= {{java_home}}/bin/java'
+  notify: restart
+
+#- name: adding jenkins user into sudoers for sudo access
+ # lineinfile:
+  #  path: /etc/sudoers
+   # line: "{{item.line}}"
+    #create: yes
+    #state: present
+  #with_items:
+   #  - { line: 'jenkins  ALL=(ALL)   NOPASSWD: ALL' }
+   #  - { line: 'Defaults:jenkins' } 
+
+#- name: adding jenkins user into sudoers for sudo access
+ # lineinfile:
+  #  path: /etc/sudoers
+   # regexp: '^Default:jenkins'
+    #line: "#"
+
+- name: start Jenkins service
+  service:
+     name: "{{pack}}"
+     state: "started"
+
+
+
+

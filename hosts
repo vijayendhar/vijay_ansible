@@ -51,7 +51,7 @@ vm1 ansible_host=40.113.198.251 ansible_user=vijayendhar ansible_ssh_pass='telan
 a="apache2"
 
 [centos-vm]
-vm2  ansible_ssh_host=168.61.159.111 ansible_user=vijayendhar ansible_ssh_pass='telangana@23'
+vm3  ansible_ssh_host=40.122.53.111 ansible_user=vijayendhar 
 
 [centos-vm:vars]
 b="httpd"
