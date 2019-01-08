@@ -21,14 +21,21 @@
   lineinfile:
      path: /etc/sysconfig/jenkins
      regexp: '^JENKINS_PORT='
-     line: 'JENKINS_PORT= {{port}}'
+     line: 'JENKINS_PORT= "{{port}}"'
   notify: restart
 
 - name: configure jenkins for $java_home
   lineinfile:
      path: /etc/sysconfig/jenkins
      regexp: '^JENKINS_JAVA_CMD='
-     line: 'JENKINS_JAVA_CMD= {{java_home}}/bin/java'
+     line: 'JENKINS_JAVA_CMD= "{{java_home}}/bin/java"'
+  notify: restart
+
+- name: configure java home on jenkins file
+  lineinfile:
+     path: /etc/sysconfig/jenkins
+     regexp: '^JENKINS_JAVA_OPTIONS='
+     line: 'JENKINS_JAVA_OPTIONS= "{{JAVA_OPTIONS}}"'
   notify: restart
 
 #- name: adding jenkins user into sudoers for sudo access
@@ -51,6 +58,7 @@
   service:
      name: "{{pack}}"
      state: "started"
+     enabled: yes
 
 
 

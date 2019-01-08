@@ -3,9 +3,9 @@
 #
 pack: 'jenkins'
 
-#jenkins_dest: /opt/jenkins
-#jenkins_lib: /var/lib/jenkins
-port: 8090
+jenkins_dest: /opt/jenkins
+jenkins_lib: /var/lib/jenkins
+port: 8080
 #prefix: '"--prefix=/jenkins/"'
 #jenkins:
  # cli_dest: '{{ jenkins_dest }}/jenkins-cli.jar' # Jenkins CLI destination
@@ -13,4 +13,6 @@ port: 8090
 #jenkins_api_url: "http://localhost:{{ port }}{{ prefix }}"
 #jenkins_cli_cmd: "java -jar {{ jenkins.cli_dest }} -s {{ jenkins_api_url }}"
 java_home: /opt/jdk1.8.0_191
+JAVA_OPTIONS: "-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+
 
